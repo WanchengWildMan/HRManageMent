@@ -15,6 +15,7 @@ string JOBS[] = {" ", "经理", "销售经理", "兼职技术人员", "兼职推销员"};
 int PLUS_STEP_NUM;
 double PLUS_RATE[7];
 double MONEY_PER_HOUR;
+double MONEY_MANAGER, MONEY_SALEMANAGER;
 class Person {
  public:
   string name;  //名字
@@ -29,6 +30,7 @@ class Staff : public Person  //定义一个人员的类
   double money;  //工资
   double hours;
   double plusmoney;
+  double salevolume;
   Staff() {}
   Staff(string job1, string name1, double money1,
         int number1)  //构造函数初始化一个人员
@@ -223,6 +225,7 @@ inline int CalcPlus(int Sales) {
     }
   }
 }
+
 Main::InputPlus() {
   cout << "是否修改提成率？y/n" << endl;
   char modify;
@@ -252,33 +255,26 @@ Main::InputPlus() {
   }
   for (int i = 0; i < Peo.size(); i++) {
     double plus = 0;
-    if (Peo[i].jobid == 1) continue;
+    if (Peo[i].jobid == 1) {
+      Peo[i].money = MONEY_MANAGER;
+      continue;
+    }
     cout << "请输入" << Peo[i].job << " " << Peo[i].name << "的";
-    if (Peo[i].name == JOBS[2])
-      cout << "提成:" << endl;
-    else
-      cout << "销售额:" << endl;
-    cin >> plus;
-    while (plus < 0) {
-      cout << "请输入合法的提成或销售额" << endl;
-    }
     double plusmoney = 0;
-    if (Peo[i].jobid == 4) {
-      cout << "请输入" << Peo[i].job << " " << Peo[i].name << "的"
-           << "工作时间" << endl;
-      plusmoney = CalcPlus(plus);
-      Peo[i].money = plusmoney;
-      Peo[i].plusmoney = plus;
-    }
     if (Peo[i].jobid == 2) {
-      cout << "请输入" << Peo[i].job << " " << Peo[i].name << "的"
-           << "工作时间" << endl;
-
-      plusmoney = CalcPlus(plus);
+      double salevolume;
+      cout << "销售额:" << endl;
+      cin >> salevolume;
+      while (salevolume < 0) {
+        cout << "请输入合法的销售额！" << endl;
+      }
+      plusmoney = CalcPlus(salevolume);
+      Peo[i].money = MONEY_SALEMANAGER + plusmoney;
+      //+销售额
+      Peo[i].plusmoney = plusmoney;
     }
     if (Peo[i].jobid == 3) {
-      cout << "请输入" << Peo[i].job << " " << Peo[i].name << "的"
-           << "工作时间" << endl;
+      cout << "工作时间:" << endl;
       double hours;
       cin >> hours;
       while (hours < 0) {
@@ -286,6 +282,19 @@ Main::InputPlus() {
       }
       Peo[i].money = Peo[i].hours * MONEY_PER_HOUR;
       Peo[i].hours = hours;
+    }
+    if (Peo[i].jobid == 4) {
+      double salevolume;
+      cout << "销售额:" << endl;
+      cin >> salevolume;
+      while (salevolume < 0) {
+        cout << "请输入合法的销售额！" << endl;
+      }
+      plusmoney = CalcPlus(salevolume);
+      Peo[i].money = plusmoney;
+      //+销售额?
+      Peo[i].plusmoney = plusmoney;
+      Peo[i].salevolume = salevolume;
     }
   }
 }
