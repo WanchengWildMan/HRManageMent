@@ -394,8 +394,8 @@ void Financial::SendReward() {
       cout << "请输入当月销售额:" << endl;
       salevolumeOrHours = intRead();
       while (salevolumeOrHours < 0)
-        cout << "请输入合法的销售额！" << endl, salevolumeOrHours = intRead(),
-                                                cout << salevolumeOrHours<<endl;
+        cout << "请输入合法的销售额！" << endl, salevolumeOrHours = intRead();
+
     } else {  //技术人员
       cout << "请输入当月工作时长:" << endl;
       salevolumeOrHours = intRead();
