@@ -289,14 +289,14 @@ void Main::Delete()  //删除模块
     bool digit = 0;
     if (isdigit(name1Orid[0])) digit = 1;
     string take;
-    bool ok=0;
+    bool ok = 0;
     for (int j = 0; j < Peo.size(); j++) {
       sum = Peo.size();
       if (digit)
         take = to_string(Peo[j].number);
       else
         take = Peo[j].name;
-      cout<<Peo[j]<<endl;
+      cout << Peo[j] << endl;
       if (take == name1Orid) {
         cout << "是否删除y/n？" << endl;
         char modify;
@@ -305,7 +305,7 @@ void Main::Delete()  //删除模块
         if (modify == 'n') continue;
         Peo.erase(Peo.begin() + j);
         cout << "删除成功" << endl;
-        ok=1;
+        ok = 1;
       }
     }
     if (!ok) cout << "没有此人！" << endl;
@@ -374,10 +374,9 @@ class Financial : public Function {
     while (modify != 'y' && modify != 'n') cin >> modify;
     if (modify == 'y') {
       cout << "请输入时薪" << endl;
-      cin >> MONEY_PER_HOUR;
+      MONEY_PER_HOUR = intRead();
       while (MONEY_PER_HOUR <= 0) {
-        cout << "请输入合法的时薪！" << endl;
-        cin >> MONEY_PER_HOUR;
+        cout << "请输入合法的时薪！" << endl, MONEY_PER_HOUR = intRead();
       }
     }
   }
