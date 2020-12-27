@@ -111,26 +111,21 @@ class Main {
   }
 } M;
 
-void Main::ReadFromFile()  //读取
+void Main::ReadFromFile()  //批量读取人员信息
 {
-  // cout << "*               公司人员管理系统                   *" << endl
-  FILE *fp = fopen("a.txt", "r");
-  {
-    int num;
-    fscanf(fp, "%d", &num);
-    for (int i = 0; i < num; i++) {
-      char s1[40], s2[40], numb[40], mon[40];
-      fscanf(fp, "%s%s%s%s", s1, s2, numb, mon);
-      Staff p1;
-      p1.job = s1;
-      p1.name = s2;
-      p1.number = stoi(numb);
-      p1.money = stoi(mon);
-      Peo.push_back(p1);
-      cout << "名字：" << s1 << setw(15) << "编号：" << num << setw(15)
-           << "职务：" << s2 << setw(15) << "工资：" << mon << endl;
-    }
+  ifstream infile("messages.txt");
+  streambuf *screen = cin.rdbuf();
+  cin.rdbuf(infile.rdbuf());
+  int num;
+  cin >> num;
+  for (int i = 0; i < num; i++) {
+    Staff p1;
+    cin >> p1.job >> p1.name >> p1.number >> p1.money;
+    p1.jobid = JOBS->find(p1.job);
+    Peo.push_back(p1);
+    cout << p1 << endl;
   }
+  cin.rdbuf(screen);
 }
 void Main::delete_all()  //删除全部
 {
@@ -169,13 +164,18 @@ void Main::Show_all() {
 void Main::write()  //存入txt文件模块
 {
   // string str="月底工资账单总览*";
-  FILE *fp = fopen("a.txt", "w");
-  fprintf(fp, "%d\n", Peo.size());
+  ofstream outfile("messages.txt");
+  streambuf *screen = cout.rdbuf();
+  cout.rdbuf(outfile.rdbuf());
+  cout << Peo.size() << endl;
   for (int i = 0; i < Peo.size(); i++) {
-    fprintf(fp, "%s %s %d %d\n", Peo[i].job.c_str(), Peo[i].name.c_str(),
-            Peo[i].number, Peo[i].money);
+    cout << Peo[i].job << " " << Peo[i].name << " " << Peo[i].number << " "
+         << Peo[i].money << endl;
+    cout.rdbuf(screen);
+    cout << "员工" << Peo[i].name << " 成功存入文件" << endl;
+    cout.rdbuf(outfile.rdbuf());
   }
-  cout << "copy成功" << endl;  //每次打开文件后最后都要关掉，不然存不进去
+  cout.rdbuf(screen);
 }
 void Main::Promote()  //升职模块
 {
@@ -221,9 +221,7 @@ void Main::ShowRewardtheMonth()  //   显示工资模块
 {
   cout << "                    月底工资账单总览                      " << endl;
   for (int i = 0; i < Peo.size(); i++) {
-    cout << "名字：" << Peo[i].name << setw(15) << "编号：" << Peo[i].number
-         << setw(15) << "职务：" << Peo[i].job << setw(15) << "工资："
-         << Peo[i].money << endl;
+    cout << Peo[i] << setw(15) << "工资：" << Peo[i].money << endl;
     if (Peo[i].jobid == 2 || Peo[i].jobid == 4) {
       cout << setw(15) << "销售额" << Peo[i].salevolume << setw(15)
            << "提成:" << Peo[i].plusmoney << endl;
@@ -454,11 +452,13 @@ int main() {
     cout << "*                          10/修改发薪方式                       "
             "  *"
          << endl;
-    cout << "*                          11/信息整合保存成a.txt文件           "
+    cout << "*                          "
+            "11/将所有员工信息保存为messages.txt文件           "
             "   "
             "   *"
          << endl;
-    cout << "*                          12/读取a.txt文件                     "
+    cout << "*                          12/从messages.txt文件批量导入员工信息  "
+            "                   "
             "   "
             "  *"
          << endl;
