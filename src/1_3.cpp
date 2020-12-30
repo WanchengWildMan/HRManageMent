@@ -113,8 +113,8 @@ class Main {
 
 void Main::ReadFromFile()  //批量读取人员信息
 {
-  string path;
-  path = "in.txt";
+  char path[100];
+  strcpy(path, "in.txt");
   cout << "输入要读入的文件名(默认从in.txt中)" << endl;
   cin >> path;
   ifstream infile(path);
@@ -125,7 +125,7 @@ void Main::ReadFromFile()  //批量读取人员信息
   for (int i = 0; i < num; i++) {
     Staff p1;
     cin >> p1.job >> p1.name >> p1.number >> p1.money;
-    p1.jobid = findElement<string>(JOBS,p1.job,4);
+    p1.jobid = findElement<string>(JOBS, p1.job, 4);
     Peo.push_back(p1);
     cout << p1 << endl;
   }
@@ -200,6 +200,7 @@ void Main::Promote()  //升职模块
       if (Peo[j].name == name1) {
         matchnum++;
         cout << "匹配到结果" << matchnum << endl;
+        cout << Peo[j] << endl;
         cout << "请选择升职的职位" << endl;
         for (int j = 1; j <= JOB_SORT_NUM; j++) {
           cout << setw(9) << j << "." << JOBS[j] << endl;
