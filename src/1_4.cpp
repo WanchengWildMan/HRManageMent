@@ -183,7 +183,7 @@ void Main::WriteToFile()  //存入txt文件模块
   cout.rdbuf(outfile.rdbuf());
   cout << Peo.size() << endl;
   for (int i = 0; i < Peo.size(); i++) {
-    cout << Peo[i].job << " " << Peo[i].name << " " << (int)Peo[i].sex
+    cout << Peo[i].job << " " << Peo[i].name << " " << (int)Peo[i].sex<<" "
          << Peo[i].number << " " << Peo[i].money << endl;
     cout.rdbuf(screen);
     cout << "员工" << Peo[i].name << " 成功存入文件" << endl;
@@ -431,7 +431,7 @@ void Financial::SendReward() {
 int Staff::sum = 0;
 int main() {
   system("mode con cols=150 lines=30");
-  system("color 3f");
+  system("color AF");
   while (1) {
     system("cls");
     cout << "*---------------------------------------------------------------"
