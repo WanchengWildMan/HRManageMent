@@ -3,12 +3,12 @@
 using namespace std;
 #define inf 0x3f3f3f3f
 #define JOB_SORT_NUM 4
-string JOBS[] = {" ", "ç»ç†", "é”€å”®ç»ç†", "å…¼èŒæŠ€æœ¯äººå‘˜", "å…¼èŒæ¨é”€å‘˜"};
+string JOBS[] = {" ", "¾­Àí", "ÏúÊÛ¾­Àí", "¼æÖ°¼¼ÊõÈËÔ±", "¼æÖ°ÍÆÏúÔ±"};
 
 int PLUS_STEP_NUM = 3;
 double PLUS_RATE[7] = {0.3, 0.4, 0.5};
 double PLUS_BOUND[7] = {0, 10000, 20000, 30000};
-double MONEY_PER_HOUR = 100;  //åˆå§‹æ—¶è–ª100
+double MONEY_PER_HOUR = 100;  //³õÊ¼Ê±Ğ½100
 double MONEY_MANAGER = 20000, MONEY_SALEMANAGER = 15000;
 
 template <typename T>
@@ -49,22 +49,22 @@ inline string to_string_my(int x) {
 }
 class Person {
  public:
-  string name;  //åå­—
-  bool sex;     // 1ç”·
+  string name;  //Ãû×Ö
+  bool sex;     // 1ÄĞ
 };
-class Staff : public Person  //å®šä¹‰ä¸€ä¸ªäººå‘˜çš„ç±»
+class Staff : public Person  //¶¨ÒåÒ»¸öÈËÔ±µÄÀà
 {
  public:
-  string job;  //èŒä½
+  string job;  //Ö°Î»
   int jobid;
-  int number;    //ç¼–å·
-  double money;  //å·¥èµ„
+  int number;    //±àºÅ
+  double money;  //¹¤×Ê
   double hours;
   double plusmoney;
   double salevolume;
   Staff() { money = hours = plusmoney = salevolume = 0; }
   Staff(string job1, string name1, bool sexx, double money1,
-        int number1)  //æ„é€ å‡½æ•°åˆå§‹åŒ–ä¸€ä¸ªäººå‘˜
+        int number1)  //¹¹Ôìº¯Êı³õÊ¼»¯Ò»¸öÈËÔ±
   {
     job = job1;
     name = name1;
@@ -76,12 +76,13 @@ class Staff : public Person  //å®šä¹‰ä¸€ä¸ªäººå‘˜çš„ç±»
   }
   ~Staff() {}
 
-  static int sum;  //è¿™æ˜¯staticç±»å‹çš„sum æ§åˆ¶ç¼–å·æ•°å­—
+  static int sum;  //ÕâÊÇstaticÀàĞÍµÄsum ¿ØÖÆ±àºÅÊı×Ö
 };
 ostream &operator<<(ostream &o, const Staff &s) {
-  o << setw(0) << "ç¼–å·ï¼š" << s.number << setw(15) << "å§“åï¼š" << s.name
-    << setw(15) << "æ€§åˆ«ï¼š" << (s.sex ? "ç”·" : "å¥³") << setw(15) << "èŒä½ï¼š"
-    << s.job << setw(15);
+  o << setw(0) << "±àºÅ£º" << setiosflags(ios::left) << setw(15) << s.number
+    << "ĞÕÃû£º" << setiosflags(ios::left) << setw(15) << s.name << "ĞÔ±ğ£º"
+    << setiosflags(ios::left) << setw(15) << (s.sex ? "ÄĞ" : "Å®") << "Ö°Î»£º"
+    << setiosflags(ios::left) << setw(15) << s.job;
   return o;
 }
 class Function {
@@ -90,40 +91,40 @@ class Function {
 };
 
 class Main {
-  //æ€»çš„æ§åˆ¶å°   æ§åˆ¶äººå‘˜ï¼›äººå‘˜å­˜æ”¾åœ¨vectorçš„å®¹å™¨ä¸­
-  //é€šè¿‡å†…éƒ¨å‡½æ•°è¿›è¡Œå„ç§æ“ä½œ
+  //×ÜµÄ¿ØÖÆÌ¨   ¿ØÖÆÈËÔ±£»ÈËÔ±´æ·ÅÔÚvectorµÄÈİÆ÷ÖĞ
+  //Í¨¹ıÄÚ²¿º¯Êı½øĞĞ¸÷ÖÖ²Ù×÷
  public:
   vector<Staff> Peo;
 
  public:
   Main() {}
-  void Promote();             //å‡èŒå‡½æ•°
-  void ShowRewardtheMonth();  //æ˜¾ç¤ºæ€»ä¿¡æ¯
-  void Look();                //æŸ¥æ‰¾
-  void Increase();            //å¢åŠ ä¸€ä¸ªæˆå‘˜
-  void Delete();              //åˆ é™¤ä¸€ä¸ªæˆå‘˜
+  void Promote();             //ÉıÖ°º¯Êı
+  void ShowRewardtheMonth();  //ÏÔÊ¾×ÜĞÅÏ¢
+  void Look();                //²éÕÒ
+  void Increase();            //Ôö¼ÓÒ»¸ö³ÉÔ±
+  void Delete();              //É¾³ıÒ»¸ö³ÉÔ±
   void Delete_all();
-  void WriteToFile();  //è®²æ•°æ®å­˜å…¥txtæ–‡ä»¶
+  void WriteToFile();  //½²Êı¾İ´æÈëtxtÎÄ¼ş
   void ReadFromFile();
   void InputReward();
   void Show_all();
-  int Sum()  //æ˜¾ç¤ºå…¬å¸äººæ•°
+  int Sum()  //ÏÔÊ¾¹«Ë¾ÈËÊı
   {
     return Peo.size();
   }
 } M;
 
-void Main::ReadFromFile()  //æ‰¹é‡è¯»å–äººå‘˜ä¿¡æ¯
+void Main::ReadFromFile()  //ÅúÁ¿¶ÁÈ¡ÈËÔ±ĞÅÏ¢
 {
   char path[100];
   strcpy(path, "in.txt");
-  cout << "æ˜¯å¦è¾“å…¥è¦è¯»å…¥çš„æ–‡ä»¶å(é»˜è®¤ä»in.txtä¸­)?" << endl;
-  cout << "1.æ˜¯" << endl;
-  cout << "2.å¦" << endl;
+  cout << "ÊÇ·ñÊäÈëÒª¶ÁÈëµÄÎÄ¼şÃû(Ä¬ÈÏ´Óin.txtÖĞ)?" << endl;
+  cout << "1.ÊÇ" << endl;
+  cout << "2.·ñ" << endl;
   int opr;
   opr = intRead();
   while (opr > 2 || opr < 1)
-    cout << "è¯·è¾“å…¥æ­£ç¡®çš„é€‰é¡¹ï¼" << endl, opr = intRead();
+    cout << "ÇëÊäÈëÕıÈ·µÄÑ¡Ïî£¡" << endl, opr = intRead();
   if (opr == 1) cin >> path;
   ifstream infile(path);
   streambuf *screen = cin.rdbuf();
@@ -132,34 +133,36 @@ void Main::ReadFromFile()  //æ‰¹é‡è¯»å–äººå‘˜ä¿¡æ¯
   cin >> num;
   for (int i = 0; i < num; i++) {
     Staff p1;
-    cin >> p1.job >> p1.name >> p1.sex >> p1.number >> p1.money;
+    int sex;
+    cin >> p1.job >> p1.name >> sex >> p1.number >> p1.money;
+    p1.sex = sex;
     p1.jobid = findElement<string>(JOBS, p1.job, 4);
     Peo.push_back(p1);
     cout << p1 << endl;
   }
   cin.rdbuf(screen);
 }
-void Main::Delete_all()  //åˆ é™¤å…¨éƒ¨
+void Main::Delete_all()  //É¾³ıÈ«²¿
 {
   vector<Staff>::iterator w;
   if (Peo.size() == 0)
-    cout << "æ— äººå‘˜ï¼Œåˆ é™¤å¤±è´¥\n";
+    cout << "ÎŞÈËÔ±£¬É¾³ıÊ§°Ü\n";
   else {
-    cout << "æ€»äººæ•°æ˜¯" << Peo.size() << endl;
+    cout << "×ÜÈËÊıÊÇ" << Peo.size() << endl;
     for (w = Peo.begin(); w != Peo.end(); w++) {
       w = Peo.erase(w);
       w--;
     }
-    cout << "åˆ é™¤æˆåŠŸ" << endl;
+    cout << "É¾³ı³É¹¦" << endl;
   }
 }
 void Main::Show_all() {
-  cout << "1.æ ¹æ®èŒä½æ’åº" << endl;
-  cout << "2.æ ¹æ®ç¼–å·æ’åº" << endl;
+  cout << "1.¸ù¾İÖ°Î»ÅÅĞò" << endl;
+  cout << "2.¸ù¾İ±àºÅÅÅĞò" << endl;
   int opr;
   opr = intRead();
   while (opr < 1 || opr > 2) {
-    cout << "è¯·è¾“å…¥åˆæ³•çš„é€‰é¡¹!" << endl;
+    cout << "ÇëÊäÈëºÏ·¨µÄÑ¡Ïî!" << endl;
     opr = intRead();
   }
   if (opr == 1) {
@@ -173,134 +176,137 @@ void Main::Show_all() {
     }
   }
 }
-void Main::WriteToFile()  //å­˜å…¥txtæ–‡ä»¶æ¨¡å—
+void Main::WriteToFile()  //´æÈëtxtÎÄ¼şÄ£¿é
 {
   ofstream outfile("out.txt");
   streambuf *screen = cout.rdbuf();
   cout.rdbuf(outfile.rdbuf());
   cout << Peo.size() << endl;
   for (int i = 0; i < Peo.size(); i++) {
-    cout << Peo[i].job << " " << Peo[i].name << " " << Peo[i].sex
+    cout << Peo[i].job << " " << Peo[i].name << " " << (int)Peo[i].sex
          << Peo[i].number << " " << Peo[i].money << endl;
     cout.rdbuf(screen);
-    cout << "å‘˜å·¥" << Peo[i].name << " æˆåŠŸå­˜å…¥æ–‡ä»¶" << endl;
+    cout << "Ô±¹¤" << Peo[i].name << " ³É¹¦´æÈëÎÄ¼ş" << endl;
     cout.rdbuf(outfile.rdbuf());
   }
   cout.rdbuf(screen);
 }
-void Main::Promote()  //å‡èŒæ¨¡å—
+void Main::Promote()  //ÉıÖ°Ä£¿é
 {
-  string name1;             //å‡èŒäººå‘˜çš„åå­—
-  string zhiwu;             //æ‰€å‡çš„èŒåŠ¡
-  double money1, upnum, j;  //å‡èŒåçš„å·¥èµ„
-  cout << "è¯·è¾“å…¥è¦å‡èŒçš„äººæ•°ï¼š" << endl;
+  string name1;             //ÉıÖ°ÈËÔ±µÄÃû×Ö
+  string zhiwu;             //ËùÉıµÄÖ°Îñ
+  double money1, upnum, j;  //ÉıÖ°ºóµÄ¹¤×Ê
+  cout << "ÇëÊäÈëÒªÉıÖ°µÄÈËÊı£º" << endl;
   cin >> upnum;
   if (upnum == 0 || Peo.size() == 0 || upnum > Peo.size()) {
-    cout << "äººæ•°ä¸åˆæ³•æˆ–æ— äººå‘˜!æ“ä½œå¤±è´¥\n";
+    cout << "ÈËÊı²»ºÏ·¨»òÎŞÈËÔ±!²Ù×÷Ê§°Ü\n";
     return;
   }
   bool ok = 0;
   for (int i = 1; i <= upnum; i++) {
-    cout << "è¯·è¾“å…¥ç¬¬" << i << "å‡èŒäººçš„åå­—" << endl;
+    cout << "ÇëÊäÈëµÚ" << i << "ÉıÖ°ÈËµÄÃû×Ö" << endl;
     cin >> name1;
     int matchnum = 0;
     for (j = 0; j < Peo.size(); j++)
       if (Peo[j].name == name1) {
         matchnum++;
-        cout << "åŒ¹é…åˆ°ç»“æœ" << matchnum << endl;
+        cout << "Æ¥Åäµ½½á¹û" << matchnum << endl;
         cout << Peo[j] << endl;
-        cout << "è¯·é€‰æ‹©å‡èŒçš„èŒä½" << endl;
+        cout << "ÇëÑ¡ÔñÉıÖ°µÄÖ°Î»" << endl;
         for (int j = 1; j <= JOB_SORT_NUM; j++) {
           cout << setw(9) << j << "." << JOBS[j] << endl;
         }
         int opr;
         opr = intRead();
         while (opr < 1 || opr > JOB_SORT_NUM) {
-          cout << "è¯·è¾“å…¥æ­£ç¡®çš„é€‰é¡¹!" << endl;
+          cout << "ÇëÊäÈëÕıÈ·µÄÑ¡Ïî!" << endl;
           opr = intRead();
         }
         Peo[j].job = JOBS[opr];
-        Peo[j].jobid = opr;  //åŒæ—¶ä¿®æ”¹
+        Peo[j].jobid = opr;  //Í¬Ê±ĞŞ¸Ä
         ok = 1;
       }
   }
   if (!ok)
-    //æ²¡æœ‰æ­¤äººçš„åˆ¤æ–­æ¡ä»¶æœ‰ä¸‰ä¸ª 1.è¾“å…¥çš„äººæ•°ä¸º0  2.è¾“å…¥çš„äººæ•°è¶…è¿‡æ€»äººæ•°
-    // 3.è¾“å…¥çš„åå­—æ²¡æœ‰å­˜åœ¨
-    cout << "æ²¡æœ‰æ­¤äºº" << endl;
+    //Ã»ÓĞ´ËÈËµÄÅĞ¶ÏÌõ¼şÓĞÈı¸ö 1.ÊäÈëµÄÈËÊıÎª0  2.ÊäÈëµÄÈËÊı³¬¹ı×ÜÈËÊı
+    // 3.ÊäÈëµÄÃû×ÖÃ»ÓĞ´æÔÚ
+    cout << "Ã»ÓĞ´ËÈË" << endl;
 }
-void Main::ShowRewardtheMonth()  //   æ˜¾ç¤ºå·¥èµ„æ¨¡å—
+void Main::ShowRewardtheMonth()  //   ÏÔÊ¾¹¤×ÊÄ£¿é
 {
-  cout << "                    æœˆåº•å·¥èµ„è´¦å•æ€»è§ˆ                      " << endl;
+  cout << "                    ÔÂµ×¹¤×ÊÕËµ¥×ÜÀÀ                      " << endl;
   for (int i = 0; i < Peo.size(); i++) {
-    cout << Peo[i] << setw(15) << "å·¥èµ„ï¼š" << Peo[i].money << endl;
+    cout << Peo[i] << "¹¤×Ê£º" << setiosflags(ios::left) << setw(15)
+         << Peo[i].money << endl;
     if (Peo[i].jobid == 2 || Peo[i].jobid == 4) {
-      cout << setw(15) << "é”€å”®é¢" << Peo[i].salevolume << setw(15)
-           << "ææˆ:" << Peo[i].plusmoney << endl;
+      cout << "ÏúÊÛ¶î" << setiosflags(ios::left) << setw(15)
+           << Peo[i].salevolume << "Ìá³É:" << setiosflags(ios::left) << setw(15)
+           << Peo[i].plusmoney << endl;
     } else if (Peo[i].jobid == 3) {
-      cout << setw(15) << "å·¥ä½œæ—¶é•¿" << Peo[i].hours << endl;
+      cout << "¹¤×÷Ê±³¤" << setiosflags(ios::left) << setw(15) << Peo[i].hours
+           << endl;
     }
   }
-  if (Peo.size() == 0) cout << "æ— äººå‘˜" << endl;
+  if (Peo.size() == 0) cout << "ÎŞÈËÔ±" << endl;
 }
-void Main::Look()  //æŸ¥æ‰¾æ¨¡å—
+void Main::Look()  //²éÕÒÄ£¿é
 {
   string name1;
-  cout << "è¯·è¾“å…¥è¦æŸ¥æ‰¾äººçš„å§“å:" << endl;
+  cout << "ÇëÊäÈëÒª²éÕÒÈËµÄĞÕÃû:" << endl;
   cin >> name1;
   bool fnd = 0;
   for (int i = 0; i < Peo.size(); i++)
     if (Peo[i].name == name1) {
       fnd = 1;
-      cout << "åå­—ï¼š" << Peo[i].name << setw(15) << "ç¼–å·ï¼š" << Peo[i].number
-           << setw(15) << "èŒåŠ¡ï¼š" << Peo[i].job << setw(15) << "å·¥èµ„ï¼š"
+      cout << "Ãû×Ö£º" << Peo[i].name << setw(15) << "±àºÅ£º" << Peo[i].number
+           << setw(15) << "Ö°Îñ£º" << Peo[i].job << setw(15) << "¹¤×Ê£º"
            << Peo[i].money;
     }
-  if (!fnd) cout << "æ²¡æœ‰æ­¤äºº" << endl;
+  if (!fnd) cout << "Ã»ÓĞ´ËÈË" << endl;
 }
-void Main::Increase()  //å¢åŠ äººå‘˜æ¨¡å—
+void Main::Increase()  //Ôö¼ÓÈËÔ±Ä£¿é
 {
   string name1;
   string job1;
   int numb;
-  cout << "è¯·è¾“å…¥è¦å¢åŠ çš„äººæ•°ï¼š" << endl;
+  cout << "ÇëÊäÈëÒªÔö¼ÓµÄÈËÊı£º" << endl;
   cin >> numb;
   for (int i = 1; i <= numb; i++) {
-    cout << "è¯·è¾“å…¥ç¬¬" << i << "ä¸ªäººçš„åå­—ï¼š" << endl;
+    cout << "ÇëÊäÈëµÚ" << i << "¸öÈËµÄÃû×Ö£º" << endl;
     cin >> name1;
-    cout << "è¯·è¾“å…¥èŒåŠ¡ï¼š" << endl;
-    cout << "     1.ç»ç†" << endl;
-    cout << "     2.é”€å”®ç»ç†" << endl;
-    cout << "     3.å…¼èŒæŠ€æœ¯äººå‘˜" << endl;
-    cout << "     4.å…¼èŒæ¨é”€å‘˜" << endl;
+    cout << "ÇëÊäÈëÖ°Îñ£º" << endl;
+    cout << "     1.¾­Àí" << endl;
+    cout << "     2.ÏúÊÛ¾­Àí" << endl;
+    cout << "     3.¼æÖ°¼¼ÊõÈËÔ±" << endl;
+    cout << "     4.¼æÖ°ÍÆÏúÔ±" << endl;
     int opt;
     opt = intRead();
     while (opt <= 0 || opt > 4)
-      cout << "è¯·è¾“å…¥æ­£ç¡®çš„é€‰é¡¹" << endl, opt = intRead();
+      cout << "ÇëÊäÈëÕıÈ·µÄÑ¡Ïî" << endl, opt = intRead();
     job1 = JOBS[opt];
-    cout << "è¯·è¾“å…¥æ€§åˆ«" << endl;
-    cout << "1.ç”·" << endl;
-    cout << "0.å¥³" << endl;
+    cout << "ÇëÊäÈëĞÔ±ğ" << endl;
+    cout << "1.ÄĞ" << endl;
+    cout << "0.Å®" << endl;
     int opr = intRead();
     while (opr < 0 || opr > 1)
-      cout << "è¯·è¾“å…¥æ­£ç¡®çš„é€‰é¡¹ï¼" << endl, opr = intRead();
+      cout << "ÇëÊäÈëÕıÈ·µÄÑ¡Ïî£¡" << endl, opr = intRead();
     Staff::sum++;
     Staff ch(job1, name1, opr, 0, Staff::sum);
     Peo.push_back(ch);
   }
 }
-void Main::Delete()  //åˆ é™¤æ¨¡å—
+void Main::Delete()  //É¾³ıÄ£¿é
 {
   string name1Orid;
   int numb, sum;
-  cout << "è¯·è¾“å…¥è¦åˆ é™¤çš„äººæ•°ï¼š" << endl;
+  cout << "ÇëÊäÈëÒªÉ¾³ıµÄÈËÊı£º" << endl;
   cin >> numb;
   if (numb == 0 || Peo.size() == 0 || numb > Peo.size()) {
-    cout << "æ— äººå‘˜ï¼Œæ“ä½œå¤±è´¥\n";
+    cout << "ÎŞÈËÔ±£¬²Ù×÷Ê§°Ü\n";
     return;
   }
   for (int i = 1; i <= numb; i++) {
-    cout << "è¯·è¾“å…¥è¦åˆ é™¤çš„ç¬¬" << i << "ä¸ªäººçš„å§“åæˆ–ç¼–å·ï¼š" << endl;
+    cout << "ÇëÊäÈëÒªÉ¾³ıµÄµÚ" << i << "¸öÈËµÄĞÕÃû»ò±àºÅ£º" << endl;
     cin >> name1Orid;
     bool digit = 0;
     if (isdigit(name1Orid[0])) digit = 1;
@@ -314,17 +320,17 @@ void Main::Delete()  //åˆ é™¤æ¨¡å—
         take = Peo[j].name;
       cout << Peo[j] << endl;
       if (take == name1Orid) {
-        cout << "æ˜¯å¦åˆ é™¤y/nï¼Ÿ" << endl;
+        cout << "ÊÇ·ñÉ¾³ıy/n£¿" << endl;
         char modify;
         cin >> modify;
         while (modify != 'y' && modify != 'n') cin >> modify;
         if (modify == 'n') continue;
         Peo.erase(Peo.begin() + j);
-        cout << "åˆ é™¤æˆåŠŸ" << endl;
+        cout << "É¾³ı³É¹¦" << endl;
         ok = 1;
       }
     }
-    if (!ok) cout << "æ²¡æœ‰æ­¤äººï¼" << endl;
+    if (!ok) cout << "Ã»ÓĞ´ËÈË£¡" << endl;
   }
 }
 class Financial : public Function {
@@ -340,7 +346,7 @@ class Financial : public Function {
   }
   inline double qStaticMoney(int id) {
     if (id > 3) {
-      cout << "åªæœ‰ç»ç†å’Œé”€å”®ç»ç†æ‰æœ‰å›ºå®šå·¥èµ„" << endl;
+      cout << "Ö»ÓĞ¾­ÀíºÍÏúÊÛ¾­Àí²ÅÓĞ¹Ì¶¨¹¤×Ê" << endl;
       return 0;
     }
     return (id == 1 ? MONEY_MANAGER : MONEY_SALEMANAGER);
@@ -364,35 +370,35 @@ class Financial : public Function {
     }
   }
   void ModifyRewardMethod() {
-    cout << "æ˜¯å¦ä¿®æ”¹ç»ç†æœˆè–ªï¼Ÿ y/n" << endl;
+    cout << "ÊÇ·ñĞŞ¸Ä¾­ÀíÔÂĞ½£¿ y/n" << endl;
     char modify;
     cin >> modify;
     while (modify != 'y' && modify != 'n') cin >> modify;
     if (modify == 'y') {
       MONEY_MANAGER = intRead();
     }
-    cout << "æ˜¯å¦ä¿®æ”¹ææˆç‡ï¼Ÿy/n" << endl;
+    cout << "ÊÇ·ñĞŞ¸ÄÌá³ÉÂÊ£¿y/n" << endl;
     cin >> modify;
     while (modify != 'y' && modify != 'n') cin >> modify;
     if (modify == 'y') {
-      cout << "è¯·è¾“å…¥ææˆé˜¶æ®µæ•°ï¼š" << endl;
+      cout << "ÇëÊäÈëÌá³É½×¶ÎÊı£º" << endl;
       PLUS_STEP_NUM = intRead();
       while (PLUS_STEP_NUM > 5)
-        cout << "ææˆé˜¶æ®µæ•°è¶…å‡ºæœ€é«˜é™åˆ¶ï¼è¯·é‡æ–°è¾“å…¥ï¼" << endl,
+        cout << "Ìá³É½×¶ÎÊı³¬³ö×î¸ßÏŞÖÆ£¡ÇëÖØĞÂÊäÈë£¡" << endl,
             PLUS_STEP_NUM = intRead();
       for (int i = 1; i <= PLUS_STEP_NUM; i++) {
-        cout << "ç¬¬" << i << "é˜¶æ®µ:" << endl;
+        cout << "µÚ" << i << "½×¶Î:" << endl;
         cin >> PLUS_RATE[i];
       }
       PLUS_RATE[PLUS_STEP_NUM + 1] = inf;
     }
-    cout << "æ˜¯å¦ä¿®æ”¹æ—¶è–ªï¼Ÿy/n" << endl;
+    cout << "ÊÇ·ñĞŞ¸ÄÊ±Ğ½£¿y/n" << endl;
     while (modify != 'y' && modify != 'n') cin >> modify;
     if (modify == 'y') {
-      cout << "è¯·è¾“å…¥æ—¶è–ª" << endl;
+      cout << "ÇëÊäÈëÊ±Ğ½" << endl;
       MONEY_PER_HOUR = intRead();
       while (MONEY_PER_HOUR <= 0) {
-        cout << "è¯·è¾“å…¥åˆæ³•çš„æ—¶è–ªï¼" << endl, MONEY_PER_HOUR = intRead();
+        cout << "ÇëÊäÈëºÏ·¨µÄÊ±Ğ½£¡" << endl, MONEY_PER_HOUR = intRead();
       }
     }
   }
@@ -405,19 +411,19 @@ void Financial::SendReward() {
     Staff worker = M.Peo[i];
     cout << worker << endl;
     if (M.Peo[i].jobid == 1)
-      cout << JOBS[1] << ":å›ºå®šæœˆè–ª " << MONEY_MANAGER << endl,
+      cout << JOBS[1] << ":¹Ì¶¨ÔÂĞ½ " << MONEY_MANAGER << endl,
           salevolumeOrHours = 0;
     else if (M.Peo[i].jobid == 2 || M.Peo[i].jobid == 4) {
-      cout << "è¯·è¾“å…¥å½“æœˆé”€å”®é¢:" << endl;
+      cout << "ÇëÊäÈëµ±ÔÂÏúÊÛ¶î:" << endl;
       salevolumeOrHours = intRead();
       while (salevolumeOrHours < 0)
-        cout << "è¯·è¾“å…¥åˆæ³•çš„é”€å”®é¢ï¼" << endl, salevolumeOrHours = intRead();
+        cout << "ÇëÊäÈëºÏ·¨µÄÏúÊÛ¶î£¡" << endl, salevolumeOrHours = intRead();
 
-    } else {  //æŠ€æœ¯äººå‘˜
-      cout << "è¯·è¾“å…¥å½“æœˆå·¥ä½œæ—¶é•¿:" << endl;
+    } else {  //¼¼ÊõÈËÔ±
+      cout << "ÇëÊäÈëµ±ÔÂ¹¤×÷Ê±³¤:" << endl;
       salevolumeOrHours = intRead();
       while (salevolumeOrHours < 0)
-        cout << "è¯·è¾“å…¥åˆæ³•çš„å·¥ä½œæ—¶é•¿ï¼" << endl, salevolumeOrHours = intRead();
+        cout << "ÇëÊäÈëºÏ·¨µÄ¹¤×÷Ê±³¤£¡" << endl, salevolumeOrHours = intRead();
     }
     GetMoneyByJob(M.Peo[i], salevolumeOrHours);
   }
@@ -431,60 +437,62 @@ int main() {
     cout << "*---------------------------------------------------------------"
             "-*"
             "\n";
-    cout << "*                          å…¬å¸äººå‘˜ç®¡ç†ç³»ç»Ÿ           "
+    cout << "*                          ¹«Ë¾ÈËÔ±¹ÜÀíÏµÍ³           	      "
             "   *"
          << endl;
-    cout << "*                          1/å¢åŠ äººå‘˜åŠå…¶ä¸ªäººä¿¡æ¯               "
+    cout << "*                          1/Ôö¼ÓÈËÔ±¼°Æä¸öÈËĞÅÏ¢            "
             "  "
             "  *"
          << endl;
-    cout << "*                          2/åˆ é™¤äººå‘˜åŠå…¶ä¸ªäººä¿¡æ¯               "
+    cout << "*                          2/É¾³ıÈËÔ±¼°Æä¸öÈËĞÅÏ¢            "
             "  "
             "  *"
          << endl;
-    cout << "*                          3/åˆ é™¤å…¨éƒ¨äººå‘˜åŠå…¶ä¸ªäººä¿¡æ¯           "
-            "  "
-            "   *"
-         << endl;
-    cout << "*                          4/æŸ¥æ‰¾äººå‘˜åŠå…¶ä¸ªäººä¿¡æ¯               "
+    cout << "*                          3/É¾³ıÈ«²¿ÈËÔ±¼°Æä¸öÈËĞÅÏ¢        "
             "  "
             "  *"
          << endl;
-    cout << "*                          5/æ˜¾ç¤ºå…¨éƒ¨äººå‘˜ä¸ªäººä¿¡æ¯                "
-            "  *"
-         << endl;
-    cout << "*                          6/å…¬å¸äººå‘˜æ€»æ•°                       "
-            "  "
-            " *\n";
-    cout << "*                          7/å‡èŒæ“ä½œ                           "
-            "  "
-            " *"
-         << endl;
-    cout << "*                          8/æœˆåº•å‘è–ª                     "
-            "  *"
-         << endl;
-    cout << "*                          9/æœˆåº•å·¥èµ„è´¦å•æ€»è§ˆ                   "
+    cout << "*                          4/²éÕÒÈËÔ±¼°Æä¸öÈËĞÅÏ¢            "
             "  "
             "  *"
          << endl;
-    cout << "*                          10/ä¿®æ”¹å‘è–ªæ–¹å¼                       "
+    cout << "*                          5/ÏÔÊ¾È«²¿ÈËÔ±¸öÈËĞÅÏ¢            "
+            "  "
             "  *"
          << endl;
-    cout << "*                          "
-            "11/å°†æ‰€æœ‰å‘˜å·¥ä¿¡æ¯ä¿å­˜ä¸ºout.txtæ–‡ä»¶           "
-            "   "
-            "   *"
-         << endl;
-    cout << "*                          12/ä»in.txtæ–‡ä»¶æ‰¹é‡å¯¼å…¥å‘˜å·¥ä¿¡æ¯  "
-            "                   "
-            "   "
+    cout << "*                          6/¹«Ë¾ÈËÔ±×ÜÊı                    "
+            "  "
+            "  *\n";
+    cout << "*                          7/ÉıÖ°²Ù×÷                        "
+            "  "
             "  *"
          << endl;
-    cout << "----------------------------------------------------------------"
+    cout << "*                          8/ÔÂµ×·¢Ğ½                        "
+            "  "
+            "  *"
+         << endl;
+    cout << "*                          9/ÔÂµ×¹¤×ÊÕËµ¥×ÜÀÀ                "
+            "  "
+            "  *"
+         << endl;
+    cout << "*                          10/ĞŞ¸Ä·¢Ğ½·½Ê½                   "
+            "  "
+            "  *"
+         << endl;
+    cout << "*                          11/ËùÓĞÔ±¹¤ĞÅÏ¢´æÎªout.txt        "
+            "  "
+            "  *"
+         << endl;
+
+    cout << "*                          12/´Óin.txtµ¼ÈëÔ±¹¤ĞÅÏ¢           "
+            "  "
+            "  *"
+         << endl;
+    cout << "--------------------------------------------------------------"
             "--"
             "-*"
          << endl;
-    cout << "è¯·è¾“å…¥æ“ä½œé€‰é¡¹" << endl;
+    cout << "ÇëÊäÈë²Ù×÷Ñ¡Ïî" << endl;
     int opr;
     opr = intRead();
     switch (opr) {
@@ -504,12 +512,12 @@ int main() {
         M.Show_all();
         break;
       case 6:
-        cout << "å…¬å¸æ€»äººæ•°:" << M.Sum() << endl;
+        cout << "¹«Ë¾×ÜÈËÊı:" << M.Sum() << endl;
         break;
       case 7:
         M.Promote();
         break;
-      case 8:  //æœˆåº•å‘è–ª
+      case 8:  //ÔÂµ×·¢Ğ½
         FinancialModule.SendReward();
         break;
       case 9:
@@ -525,10 +533,10 @@ int main() {
         M.ReadFromFile();
         break;
       default:
-        cout << "è¯·è¾“å…¥æ­£ç¡®çš„é€‰é¡¹ï¼" << endl;
+        cout << "ÇëÊäÈëÕıÈ·µÄÑ¡Ïî£¡" << endl;
         break;
     }
-    system("pause");  //æŒ‰ä»»æ„é”®ç»§ç»­ï¼Œå®ç°äº†ç”»é¢å†»ç»“
+    system("pause");  //°´ÈÎÒâ¼ü¼ÌĞø£¬ÊµÏÖÁË»­Ãæ¶³½á
     getchar();
   }
 }
