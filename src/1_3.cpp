@@ -63,13 +63,14 @@ class Staff : public Person  //定义一个人员的类
   double plusmoney;
   double salevolume;
   Staff() { money = hours = plusmoney = salevolume = 0; }
-  Staff(string job1, string name1, double money1,
+  Staff(string job1, string name1, bool sexx, double money1,
         int number1)  //构造函数初始化一个人员
   {
     job = job1;
     name = name1;
     number = number1;
     money = money1;
+    sex = sexx;
     hours = plusmoney = salevolume = 0;
     jobid = findElement(JOBS, job1, 4);
   }
@@ -79,7 +80,8 @@ class Staff : public Person  //定义一个人员的类
 };
 ostream &operator<<(ostream &o, const Staff &s) {
   o << setw(0) << "编号：" << s.number << setw(15) << "姓名：" << s.name
-    << setw(15) << "职位：" << s.job << setw(15);
+    << setw(15) << "性别：" << (s.sex ? "男" : "女") << setw(15) << "职位："
+    << s.job << setw(15);
   return o;
 }
 class Function {
@@ -115,8 +117,14 @@ void Main::ReadFromFile()  //批量读取人员信息
 {
   char path[100];
   strcpy(path, "in.txt");
-  cout << "输入要读入的文件名(默认从in.txt中)" << endl;
-  cin >> path;
+  cout << "是否输入要读入的文件名(默认从in.txt中)?" << endl;
+  cout << "1.是" << endl;
+  cout << "2.否" << endl;
+  int opr;
+  opr = intRead();
+  while (opr > 2 || opr < 1)
+    cout << "请输入正确的选项！" << endl, opr = intRead();
+  if (opr == 1) cin >> path;
   ifstream infile(path);
   streambuf *screen = cin.rdbuf();
   cin.rdbuf(infile.rdbuf());
@@ -124,7 +132,7 @@ void Main::ReadFromFile()  //批量读取人员信息
   cin >> num;
   for (int i = 0; i < num; i++) {
     Staff p1;
-    cin >> p1.job >> p1.name >> p1.number >> p1.money;
+    cin >> p1.job >> p1.name >> p1.sex >> p1.number >> p1.money;
     p1.jobid = findElement<string>(JOBS, p1.job, 4);
     Peo.push_back(p1);
     cout << p1 << endl;
@@ -172,8 +180,8 @@ void Main::WriteToFile()  //存入txt文件模块
   cout.rdbuf(outfile.rdbuf());
   cout << Peo.size() << endl;
   for (int i = 0; i < Peo.size(); i++) {
-    cout << Peo[i].job << " " << Peo[i].name << " " << Peo[i].number << " "
-         << Peo[i].money << endl;
+    cout << Peo[i].job << " " << Peo[i].name << " " << Peo[i].sex
+         << Peo[i].number << " " << Peo[i].money << endl;
     cout.rdbuf(screen);
     cout << "员工" << Peo[i].name << " 成功存入文件" << endl;
     cout.rdbuf(outfile.rdbuf());
@@ -270,8 +278,14 @@ void Main::Increase()  //增加人员模块
     while (opt <= 0 || opt > 4)
       cout << "请输入正确的选项" << endl, opt = intRead();
     job1 = JOBS[opt];
+    cout << "请输入性别" << endl;
+    cout << "1.男" << endl;
+    cout << "0.女" << endl;
+    int opr = intRead();
+    while (opr < 0 || opr > 1)
+      cout << "请输入正确的选项！" << endl, opr = intRead();
     Staff::sum++;
-    Staff ch(job1, name1, 0, Staff::sum);
+    Staff ch(job1, name1, opr, 0, Staff::sum);
     Peo.push_back(ch);
   }
 }
