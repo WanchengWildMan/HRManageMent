@@ -113,7 +113,11 @@ class Main {
 
 void Main::ReadFromFile()  //批量读取人员信息
 {
-  ifstream infile("messages.txt");
+  string path;
+  path = "in.txt";
+  cout << "输入要读入的文件名(默认从in.txt中)" << endl;
+  cin >> path;
+  ifstream infile(path);
   streambuf *screen = cin.rdbuf();
   cin.rdbuf(infile.rdbuf());
   int num;
@@ -121,7 +125,7 @@ void Main::ReadFromFile()  //批量读取人员信息
   for (int i = 0; i < num; i++) {
     Staff p1;
     cin >> p1.job >> p1.name >> p1.number >> p1.money;
-    p1.jobid = JOBS->find(p1.job);
+    p1.jobid = findElement<string>(JOBS,p1.job,4);
     Peo.push_back(p1);
     cout << p1 << endl;
   }
@@ -163,7 +167,7 @@ void Main::Show_all() {
 }
 void Main::WriteToFile()  //存入txt文件模块
 {
-  ofstream outfile("messages.txt");
+  ofstream outfile("out.txt");
   streambuf *screen = cout.rdbuf();
   cout.rdbuf(outfile.rdbuf());
   cout << Peo.size() << endl;
@@ -452,11 +456,11 @@ int main() {
             "  *"
          << endl;
     cout << "*                          "
-            "11/将所有员工信息保存为messages.txt文件           "
+            "11/将所有员工信息保存为out.txt文件           "
             "   "
             "   *"
          << endl;
-    cout << "*                          12/从messages.txt文件批量导入员工信息  "
+    cout << "*                          12/从in.txt文件批量导入员工信息  "
             "                   "
             "   "
             "  *"
